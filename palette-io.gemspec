@@ -1,10 +1,10 @@
-require_relative 'lib/palette/io/version'
+require_relative 'lib/palette-io/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "palette-io"
-  spec.version       = Palette::Io::VERSION
+  spec.version       = PaletteIO::VERSION
   spec.authors       = ["mikeburb"]
-  spec.email         = ["beardednord12@gmail.com"]
+  spec.email         = ["TODO: Add e-mail address."]
 
   spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
   spec.description   = %q{TODO: Write a longer description or delete this line.}
