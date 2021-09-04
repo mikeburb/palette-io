@@ -1,6 +1,6 @@
-require "palette-io/version"
+require 'palette-io/version'
+require 'palette-io/palette'
 
 module PaletteIO
-    class Error < StandardError; end
-    # Your code goes here...
+
 end
