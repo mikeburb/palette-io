@@ -8,6 +8,7 @@ module PaletteIO
     def setup
     end
 
+
     #Hexadecimal
 
     def test_hexadecimal_input_defaults_to_rgb_color_space
@@ -31,6 +32,21 @@ module PaletteIO
     end
 
 
+    #Grayscale
+
+    def test_numeric_input_under_six_digits_is_gray_scale_color_space
+      @swatch = Swatch.new(256)
+      @swatchTwo = Swatch.new("256")
+      assert_equal :grayscale, @swatch.colorSpace
+      assert_equal :grayscale, @swatchTwo.colorSpace
+    end
+
+    def test_numberic_or_under_six_digits_converts_to_gray_scale
+      @swatch = Swatch.new(51)
+      @swatchTwo = Swatch.new("256")
+      assert_equal [51, 0, 0], @swatch.values
+      assert_equal [256, 0, 0], @swatchTwo.values
+    end
 
 
 
