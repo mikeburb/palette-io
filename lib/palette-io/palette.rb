@@ -6,11 +6,25 @@ module PaletteIO
       @swatches = []
     end
 
+    def [](index)
+      @swatches[index]
+    end
+
+    def <<(swatch)
+      @swatches << swatch
+    end
+
     def length
       @swatches.length
     end
 
+    def all
+      @swatches
+    end
 
+    def each(&block)
+      @swatches.each(&block)
+    end
 
   end
 

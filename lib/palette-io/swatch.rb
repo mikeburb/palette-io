@@ -7,6 +7,11 @@ module PaletteIO
       setColor(args)
     end
 
+    #TODO:
+    # - Add 16-bit color colorinput
+    # - Add internal color space conversions
+    # - Add validations and Error handling
+
     def setColor(colorInput)
       if(colorInput.length == 1)
         parseColorSingleInput(colorInput)
