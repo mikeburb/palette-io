@@ -47,6 +47,22 @@ module PaletteIO
       assert_equal [100, 45, 234], @swatchTwo.values
     end
 
+    #CMYK
+
+    def test_4_values_defaults_to_rgb_color_space
+      @swatch = Swatch.new(40, 172, 13, 65)
+      @swatchTwo = Swatch.new("40", "172", "13", "65")
+      assert_equal :cmyk, @swatch.colorSpace
+      assert_equal :cmyk, @swatchTwo.colorSpace
+    end
+
+    def test_4_numbers_convert_to_cmyk_value
+      @swatch = Swatch.new(40, 172, 13, 65)
+      @swatchTwo = Swatch.new("40", "172", "13", "65")
+      assert_equal [40, 172, 13, 65], @swatch.values
+      assert_equal [40, 172, 13, 65], @swatchTwo.values
+    end
+
     #Grayscale
 
     def test_numeric_input_under_six_digits_is_gray_scale_color_space

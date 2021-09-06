@@ -18,8 +18,11 @@ module PaletteIO
     private
 
     def parseColorMultiInput(colorInput)
-      if(colorInput.length == 3)
+      case colorInput.length
+      when 3
         setRGB(colorInput)
+      when 4
+        setCMYK(colorInput)
       end
     end
 
@@ -39,9 +42,15 @@ module PaletteIO
     def setRGB(rgbValues)
       @values = []
       rgbValues.each {|rgbValue| @values << (rgbValue.to_i)}
-
       @colorSpace = :rgb
     end
+
+    def setCMYK(cmykValues)
+      @values = []
+      cmykValues.each {|cmykValue| @values << (cmykValue.to_i)}
+      @colorSpace = :cmyk
+    end
+
 
     def setHexadecimal(hexcolor)
       if(hexcolor.length > 6)
