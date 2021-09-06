@@ -79,7 +79,12 @@ module PaletteIO
       assert_equal [256, 0, 0], @swatchTwo.values
     end
 
+    #BitConversion
 
+    def test_16_bit_values
+      @swatch = Swatch.new(100, 45, 234)
+      assert_equal [10000, 2025, 54756], @swatch.values16
+    end
 
   end
 end

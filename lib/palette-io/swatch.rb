@@ -1,7 +1,7 @@
 require 'palette-io'
 module PaletteIO
   class Swatch
-    attr_reader :colorSpace, :values
+    attr_reader :colorSpace
 
     def initialize(*args)
       setColor(args)
@@ -15,7 +15,27 @@ module PaletteIO
       end
     end
 
+    def values
+      @values
+    end
+
+    def values16
+      if(@values16)
+        @values16
+      else
+        convertTo16Bit
+        @values16
+      end
+    end
+
     private
+
+    def convertTo16Bit
+      if (@values)
+        @values16 = []
+        @values.each {|value| @values16 << value * value}
+      end
+    end
 
     def parseColorMultiInput(colorInput)
       case colorInput.length
