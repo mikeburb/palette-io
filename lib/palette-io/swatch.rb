@@ -10,13 +10,17 @@ module PaletteIO
     def setColor(colorInput)
       if(colorInput.length == 1)
         parseColorSingleInput(colorInput)
+      else
+        parseColorMultiInput(colorInput)
       end
     end
 
     private
 
     def parseColorMultiInput(colorInput)
-
+      if(colorInput.length == 3)
+        setRGB(colorInput)
+      end
     end
 
     def parseColorSingleInput(colorInput)
@@ -32,6 +36,12 @@ module PaletteIO
       end
     end
 
+    def setRGB(rgbValues)
+      @values = []
+      rgbValues.each {|rgbValue| @values << (rgbValue.to_i)}
+
+      @colorSpace = :rgb
+    end
 
     def setHexadecimal(hexcolor)
       if(hexcolor.length > 6)

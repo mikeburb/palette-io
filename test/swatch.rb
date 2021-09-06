@@ -31,6 +31,21 @@ module PaletteIO
       end
     end
 
+    #RGB
+
+    def test_3_values_defaults_to_rgb_color_space
+      @swatch = Swatch.new(100, 45, 234)
+      @swatchTwo = Swatch.new("100", "45", "234")
+      assert_equal :rgb, @swatch.colorSpace
+      assert_equal :rgb, @swatchTwo.colorSpace
+    end
+
+    def test_3_numbers_convert_to_rgb_value
+      @swatch = Swatch.new(100, 45, 234)
+      @swatchTwo = Swatch.new("100", "45", "234")
+      assert_equal [100, 45, 234], @swatch.values
+      assert_equal [100, 45, 234], @swatchTwo.values
+    end
 
     #Grayscale
 
