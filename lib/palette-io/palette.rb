@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
 require 'palette-io'
 require 'palette-io/swatch'
+
 module PaletteIO
+  # Container for swatches that contains all conversion methods
   class Palette
-    def initialize()
+    def initialize
       @swatches = []
     end
 
@@ -25,7 +29,5 @@ module PaletteIO
     def each(&block)
       @swatches.each(&block)
     end
-
   end
-
 end

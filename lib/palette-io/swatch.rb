@@ -1,101 +1,105 @@
+# frozen_string_literal: true
+
 require 'palette-io'
 module PaletteIO
+  # Holds color information for a single color. Able to store and
+  # convert a variety of color space formats.
   class Swatch
-    attr_reader :colorSpace
+    attr_reader :color_space
 
     def initialize(*args)
-      setColor(args)
+      to_color(args)
     end
 
-    #TODO:
-    # - Add 16-bit color colorinput
+    # TODO: (To be completed for v 0.1)
+    # - Add 16-bit color color input
     # - Add internal color space conversions
     # - Add validations and Error handling
 
-    def setColor(colorInput)
-      if(colorInput.length == 1)
-        parseColorSingleInput(colorInput)
+    def to_color(color_input)
+      if color_input.length == 1
+        parse_color_single_input(color_input)
       else
-        parseColorMultiInput(colorInput)
+        parse_color_multi_input(color_input)
       end
     end
 
     def values
+      convert_to_8_bit unless @values
       @values
     end
 
     def values16
-      if(@values16)
-        @values16
-      else
-        convertTo16Bit
-        @values16
-      end
+      convert_to_16_bit unless @values16
+      @values16
     end
 
     private
 
-    def convertTo16Bit
-      if (@values)
-        @values16 = []
-        @values.each {|value| @values16 << value * value}
-      end
+    def convert_to_8_bit
+      return nil unless @values16
+
+      # TODO: Write conversion
+      @values16
     end
 
-    def parseColorMultiInput(colorInput)
-      case colorInput.length
+    def convert_to_16_bit
+      return nil unless @values
+
+      @values16 = []
+      @values.each { |value| @values16 << value * value }
+    end
+
+    def parse_color_multi_input(color_input)
+      case color_input.length
       when 3
-        setRGB(colorInput)
+        as_rgb(color_input)
       when 4
-        setCMYK(colorInput)
+        as_cmyk(color_input)
       end
     end
 
-    def parseColorSingleInput(colorInput)
-      colorInput = colorInput[0]
-      if(colorInput.is_a?(Integer))
-        setGrayscale(colorInput)
+    def parse_color_single_input(color_input)
+      color_input = color_input[0]
+      if color_input.is_a?(Integer)
+        as_grayscale(color_input)
+      elsif color_input.length > 5
+        as_hexadecimal(color_input)
       else
-        if(colorInput.length > 5)
-          setHexadecimal(colorInput)
-        else
-          setGrayscale(colorInput.to_i)
-        end
+        as_grayscale(color_input.to_i)
       end
     end
 
-    def setRGB(rgbValues)
+    def as_rgb(rgb_values)
       @values = []
-      rgbValues.each {|rgbValue| @values << (rgbValue.to_i)}
-      @colorSpace = :rgb
+      rgb_values.each { |rgb_value| @values << (rgb_value.to_i) }
+      @color_space = :rgb
     end
 
-    def setCMYK(cmykValues)
+    def as_cmyk(cmyk_values)
       @values = []
-      cmykValues.each {|cmykValue| @values << (cmykValue.to_i)}
-      @colorSpace = :cmyk
+      cmyk_values.each { |cmyk_value| @values << (cmyk_value.to_i) }
+      @color_space = :cmyk
     end
 
-
-    def setHexadecimal(hexcolor)
-      if(hexcolor.length > 6)
-        if(hexcolor.length == 7)
-          hexcolor.slice!(0, 1)
-        else
-          raise TypeError, "Invalid color input value."
-        end
-      end
+    def as_hexadecimal(hex_values)
+      format_hexadecimal(hex_values)
       @values = []
-      hexValues = hexcolor.scan(/\w{2}/)
-      hexValues.each {|hexValue| @values << hexValue.to_i(16)}
-      @colorSpace = :rgb
+      hex_values = hex_values.scan(/\w{2}/)
+      hex_values.each { |hex_value| @values << hex_value.to_i(16) }
+      @color_space = :rgb
     end
 
-    def setGrayscale(value)
-      @values = [value, 0 , 0]
-      @colorSpace = :grayscale
+    def format_hexadecimal(hex_values)
+      hex_values.slice!(0, 1) if hex_values.length == 7
+      return hex_values if hex_values.length == 6
+
+      raise TypeError, 'Invalid color input value.'
     end
 
-
+    def as_grayscale(grayscale_value)
+      @values = [grayscale_value, 0, 0]
+      @color_space = :grayscale
+    end
   end
 end

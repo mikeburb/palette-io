@@ -1,14 +1,19 @@
-$: << File.expand_path('../lib', File.dirname(__FILE__))
+# frozen_string_literal: true
+
+$LOAD_PATH << File.expand_path('../lib', File.dirname(__FILE__))
 
 require 'test/unit'
 require 'palette-io'
 
 module PaletteIO
+  # Test for Palette Class
   class TestPalette < Test::Unit::TestCase
     def setup
       @palette = Palette.new
       @swatch = Swatch.new(100, 200, 50)
       @swatch2 = Swatch.new(100, 200, 50)
+      @swatches = []
+      100.times { @swatches << Swatch.new(40, 200, 11) }
     end
 
     def test_palette_returns_integer_length
@@ -33,9 +38,8 @@ module PaletteIO
     def test_swatches_extends_each
       output = []
       @palette << [@swatch1, @swatch2]
-      @palette.each {|swatch| output << swatch}
+      @palette.each { |swatch| output << swatch }
       assert_equal output, @palette.all
     end
-
   end
 end

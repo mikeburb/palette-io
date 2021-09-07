@@ -1,90 +1,88 @@
-$: << File.expand_path('../lib', File.dirname(__FILE__))
+# frozen_string_literal: false
+
+$LOAD_PATH << File.expand_path('../lib', File.dirname(__FILE__))
 
 require 'test/unit'
 require 'palette-io'
 
 module PaletteIO
-  class TestPalette < Test::Unit::TestCase
-    def setup
-    end
-
-
-    #Hexadecimal
+  # Unit test for the Swatch class
+  class TestSwatch < Test::Unit::TestCase
+    # Hexadecimal
 
     def test_hexadecimal_input_defaults_to_rgb_color_space
-      @swatch = Swatch.new("2356A3")
-      @swatchTwo = Swatch.new("#2356A3")
-      assert_equal :rgb, @swatch.colorSpace
-      assert_equal :rgb, @swatchTwo.colorSpace
+      @swatch = Swatch.new('2356A3')
+      @swatch_two = Swatch.new('#2356A3')
+      assert_equal :rgb, @swatch.color_space
+      assert_equal :rgb, @swatch_two.color_space
     end
 
     def test_hexadecimal_input_converts_to_rgb
-      @swatch = Swatch.new("2356A3")
-      @swatchTwo = Swatch.new("#2356A3")
+      @swatch = Swatch.new('2356A3')
+      @swatch_two = Swatch.new('#2356A3')
       assert_equal [35, 86, 163], @swatch.values
-      assert_equal @swatchTwo.values, @swatch.values
+      assert_equal @swatch_two.values, @swatch.values
     end
 
     def test_single_value_input_longer_than_7_raises_error
-      assert_raise (TypeError) do
-        @swatch = Swatch.new("2356A323")
+      assert_raise TypeError do
+        @swatch = Swatch.new('2356A323')
       end
     end
 
-    #RGB
+    # RGB
 
     def test_3_values_defaults_to_rgb_color_space
       @swatch = Swatch.new(100, 45, 234)
-      @swatchTwo = Swatch.new("100", "45", "234")
-      assert_equal :rgb, @swatch.colorSpace
-      assert_equal :rgb, @swatchTwo.colorSpace
+      @swatch_two = Swatch.new('100', '45', '234')
+      assert_equal :rgb, @swatch.color_space
+      assert_equal :rgb, @swatch_two.color_space
     end
 
     def test_3_numbers_convert_to_rgb_value
       @swatch = Swatch.new(100, 45, 234)
-      @swatchTwo = Swatch.new("100", "45", "234")
+      @swatch_two = Swatch.new('100', '45', '234')
       assert_equal [100, 45, 234], @swatch.values
-      assert_equal [100, 45, 234], @swatchTwo.values
+      assert_equal [100, 45, 234], @swatch_two.values
     end
 
-    #CMYK
+    # CMYK
 
     def test_4_values_defaults_to_rgb_color_space
       @swatch = Swatch.new(40, 172, 13, 65)
-      @swatchTwo = Swatch.new("40", "172", "13", "65")
-      assert_equal :cmyk, @swatch.colorSpace
-      assert_equal :cmyk, @swatchTwo.colorSpace
+      @swatch_two = Swatch.new('40', '172', '13', '65')
+      assert_equal :cmyk, @swatch.color_space
+      assert_equal :cmyk, @swatch_two.color_space
     end
 
     def test_4_numbers_convert_to_cmyk_value
       @swatch = Swatch.new(40, 172, 13, 65)
-      @swatchTwo = Swatch.new("40", "172", "13", "65")
+      @swatch_two = Swatch.new('40', '172', '13', '65')
       assert_equal [40, 172, 13, 65], @swatch.values
-      assert_equal [40, 172, 13, 65], @swatchTwo.values
+      assert_equal [40, 172, 13, 65], @swatch_two.values
     end
 
-    #Grayscale
+    # Grayscale
 
     def test_numeric_input_under_six_digits_is_gray_scale_color_space
       @swatch = Swatch.new(256)
-      @swatchTwo = Swatch.new("256")
-      assert_equal :grayscale, @swatch.colorSpace
-      assert_equal :grayscale, @swatchTwo.colorSpace
+      @swatch_two = Swatch.new('256')
+      assert_equal :grayscale, @swatch.color_space
+      assert_equal :grayscale, @swatch_two.color_space
     end
 
     def test_numberic_or_under_six_digits_converts_to_gray_scale
       @swatch = Swatch.new(51)
-      @swatchTwo = Swatch.new("256")
+      @swatch_two = Swatch.new('256')
       assert_equal [51, 0, 0], @swatch.values
-      assert_equal [256, 0, 0], @swatchTwo.values
+      assert_equal [256, 0, 0], @swatch_two.values
     end
 
-    #BitConversion
+    # BitConversion
 
     def test_16_bit_values
       @swatch = Swatch.new(100, 45, 234)
-      assert_equal [10000, 2025, 54756], @swatch.values16
+      assert_equal [10_000, 2025, 54_756], @swatch.values16
     end
-
   end
 end
