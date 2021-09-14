@@ -34,6 +34,12 @@ module PaletteIO
       @values16
     end
 
+    def ==(other)
+      return false unless other.is_a?(Swatch)
+
+      @values == other.values && @color_space == other.color_space
+    end
+
     private
 
     def convert_to_8_bit

@@ -84,5 +84,13 @@ module PaletteIO
       @swatch = Swatch.new(100, 45, 234)
       assert_equal [10_000, 2025, 54_756], @swatch.values16
     end
+
+    # Overloaded Object Metods
+
+    def test_swatch_equivalancy_is_value_based
+      @swatch = Swatch.new(256)
+      @swatch_two = Swatch.new('256')
+      assert_equal(@swatch, @swatch_two)
+    end
   end
 end

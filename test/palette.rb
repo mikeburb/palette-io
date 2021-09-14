@@ -12,6 +12,7 @@ module PaletteIO
       @palette = Palette.new
       @swatch = Swatch.new(100, 200, 50)
       @swatch2 = Swatch.new(100, 200, 50)
+      @swatch3 = Swatch.new(40, 50, 60)
       @swatches = []
       100.times { @swatches << Swatch.new(40, 200, 11) }
     end
@@ -26,13 +27,27 @@ module PaletteIO
       assert_equal initial_length + 1, @palette.length
     end
 
+    def test_append_multiple
+      initial_length = @palette.length
+      @palette << [@swatch, @swatch3]
+      assert_equal initial_length + 2, @palette.length
+      assert_equal @palette[1], @swatch3
+    end
+
+    def test_adding_swatch_data_creates_a_new_swatch
+      @palette << [100, 200, 50]
+      assert_equal @swatch, @palette[0]
+      @palette << [[10, 20, 30], [40, 50, 60]]
+      assert_equal @swatch3, @palette[2]
+    end
+
     def test_all_gets_all_swatches
-      assert_equal [], @palette.all
+      assert_equal @palette.all, []
     end
 
     def test_brackets_get_swatch_by_index
       @palette << @swatch
-      assert_equal @palette[-1], @swatch
+      assert_equal @swatch, @palette[-1]
     end
 
     def test_swatches_extends_each

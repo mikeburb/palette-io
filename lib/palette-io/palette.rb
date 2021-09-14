@@ -14,8 +14,12 @@ module PaletteIO
       @swatches[index]
     end
 
-    def <<(swatch)
-      @swatches << swatch
+    def <<(swatch_data)
+      add_swatch_data(swatch_data)
+    end
+
+    def add(*swatch_data)
+      add_swatch_data(swatch_data)
     end
 
     def length
@@ -28,6 +32,25 @@ module PaletteIO
 
     def each(&block)
       @swatches.each(&block)
+    end
+
+    private
+
+    def add_swatch_data(swatch_data)
+      if swatch_data.is_a?(Array) && swatch_data.length > 1
+        data_type = swatch_data[0].class
+        return add_swatches swatch_data if [Swatch, Array].include?(data_type)
+      end
+      add_swatch swatch_data
+    end
+
+    def add_swatches(swatches_data)
+      swatches_data.each { |swatch_data| add_swatch(swatch_data) }
+    end
+
+    def add_swatch(swatch_data)
+      swatch_data = Swatch.new(*swatch_data) unless swatch_data.is_a?(Swatch)
+      @swatches << swatch_data
     end
   end
 end
