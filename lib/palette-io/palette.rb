@@ -4,7 +4,7 @@ require 'palette-io'
 require 'palette-io/swatch'
 
 module PaletteIO
-  # Container for swatches that contains all conversion methods
+  # Container for swatches that has interface for all conversion methods
   class Palette
     def initialize
       @swatches = []
