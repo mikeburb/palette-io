@@ -8,7 +8,12 @@ module PaletteIO
     attr_reader :color_space
 
     def initialize(*args)
-      to_color(args)
+      if args[-1].class == Symbol
+        to_color_space(args, args.pop)
+      else
+        to_color(args)
+      end
+
     end
 
     # TODO: (To be completed for v 0.1)
@@ -21,6 +26,21 @@ module PaletteIO
         parse_color_single_input(color_input)
       else
         parse_color_multi_input(color_input)
+      end
+    end
+
+    def to_color_space(color_input, color_space_input)
+      case color_space_input
+      when :rgb
+        as_rgb(color_input)
+      when :rgb16
+        as_rgb16(color_input)
+      when :cmyk
+        as_cmyk(color_input)
+      when :grayscale
+        as_grayscale(color_input.first)
+      else
+        raise TypeError, "#{color_space_input} is an invalid color space."
       end
     end
 

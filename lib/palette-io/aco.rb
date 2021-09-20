@@ -23,7 +23,7 @@ module PaletteIO
         length.times do
           swatch = file.read(10).unpack('S>5')
           color_space = aco_color_space(swatch[0])
-          palette.add(swatch[1], swatch[2], swatch[3])
+          palette.add(swatch[1], swatch[2], swatch[3], color_space)
         end
 
 
@@ -33,7 +33,7 @@ module PaletteIO
       def aco_color_space(color_space_value)
         case color_space_value
         when 0
-          :rgb
+          :rgb16
         end
       end
 
