@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'palette-io'
+require 'palette-io/aco'
 
 module PaletteIO
   # Utility for reading palette files. Specific formats appended seperately.
@@ -12,17 +13,22 @@ module PaletteIO
           raise TypeError, "\"#{format}\" is An Invalid Palette File Format"
         end
 
-        open_file(file_path, format)
+        get_palette(file_path, format)
       end
 
       private
 
-      def open_file(file_path, _format)
+      def get_palette(file_path, format)
         return nil unless File.exist?(file_path)
 
-        palette = Palette.new
-        File.open(file_path)
-        palette
+        open_file(file_path, format)
+      end
+
+      def open_file(file_path, format)
+        case format
+        when 'aco'
+          read_aco_file(file_path)
+        end
       end
 
       def valid_file_types

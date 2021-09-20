@@ -6,7 +6,7 @@ require 'test/unit'
 require 'palette-io'
 
 module PaletteIO
-  # Test for Palette Class
+  # Test for Reader Class
   class TestReader < Test::Unit::TestCase
     def setup; end
 
