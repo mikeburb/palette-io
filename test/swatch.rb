@@ -60,6 +60,14 @@ module PaletteIO
       assert_equal :rgb16, @swatch.color_space
     end
 
+    # HSA16
+
+    def test_hsb16_values_can_be_assigned_directly
+      @swatch = Swatch.new(3_032, 5_652, 12_481, :hsb16)
+      assert_equal [3_032, 5_652, 12_481], @swatch.values16
+      assert_equal :hsb16, @swatch.color_space
+    end
+
     # CMYK
 
     def test_4_values_defaults_to_rgb_color_space

@@ -52,6 +52,8 @@ module PaletteIO
       case color_space_input
       when :rgb16
         as_rgb16(color_input)
+      when :hsb16
+        as_hsb16(color_input)
       when :cmyk16
         as_cmyk16(color_input)
       when :grayscale16
@@ -123,6 +125,12 @@ module PaletteIO
       @values16 = []
       rgb_values.each { |rgb_value| @values16 << (rgb_value.to_i) }
       @color_space = :rgb16
+    end
+
+    def as_hsb16(hsb_values)
+      @values16 = []
+      hsb_values.each { |hsb_value| @values16 << (hsb_value.to_i) }
+      @color_space = :hsb16
     end
 
     def as_cmyk(cmyk_values)

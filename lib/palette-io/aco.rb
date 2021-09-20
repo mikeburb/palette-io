@@ -19,24 +19,28 @@ module PaletteIO
 
       def parse_aco(file, palette)
         file.seek(2)
-        length = file.read(2).unpack('S>')[0]
+        length = file.read(2).unpack1('S>')
         length.times do
           swatch = file.read(10).unpack('S>5')
           color_space = aco_color_space(swatch[0])
           palette.add(swatch[1], swatch[2], swatch[3], color_space)
         end
-
-
-        #puts count.is_a?(Integer)
       end
 
       def aco_color_space(color_space_value)
         case color_space_value
         when 0
           :rgb16
+        when 1
+          :hsb16
+        when 2
+          :cmyk16
+        when 7
+          :lab16
+        when 8
+          :grayscale16
         end
       end
-
     end
   end
 end

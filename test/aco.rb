@@ -9,6 +9,7 @@ module PaletteIO
   # Test for Reader Class (.aco files)
   class TestReader < Test::Unit::TestCase
     def setup
+      #test palette includes 1 RGB,
       @read_palette = Reader.open('test-files/test-palette.aco')
     end
 
@@ -18,6 +19,7 @@ module PaletteIO
 
     def test_reader_gets_correct_color_space
       assert_equal :rgb16, @read_palette[0].color_space
+      assert_equal :hsb16, @read_palette[1].color_space
     end
   end
 end
