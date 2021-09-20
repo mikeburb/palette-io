@@ -37,8 +37,12 @@ module PaletteIO
         as_rgb16(color_input)
       when :cmyk
         as_cmyk(color_input)
+      when :cmyk16
+        as_cmyk16(color_input)
       when :grayscale
         as_grayscale(color_input.first)
+      when :grayscale16
+        as_grayscale16(color_input.first)
       else
         raise TypeError, "#{color_space_input} is an invalid color space."
       end
@@ -102,10 +106,22 @@ module PaletteIO
       @color_space = :rgb
     end
 
+    def as_rgb16(rgb_values)
+      @values16 = []
+      rgb_values.each { |rgb_value| @values16 << (rgb_value.to_i) }
+      @color_space = :rgb16
+    end
+
     def as_cmyk(cmyk_values)
       @values = []
       cmyk_values.each { |cmyk_value| @values << (cmyk_value.to_i) }
       @color_space = :cmyk
+    end
+
+    def as_cmyk16(cmyk_values)
+      @values16 = []
+      cmyk_values.each { |cmyk_value| @values16 << (cmyk_value.to_i) }
+      @color_space = :cmyk16
     end
 
     def as_hexadecimal(hex_values)
@@ -126,6 +142,11 @@ module PaletteIO
     def as_grayscale(grayscale_value)
       @values = [grayscale_value, 0, 0]
       @color_space = :grayscale
+    end
+
+    def as_grayscale16(grayscale_value)
+      @values16 = [grayscale_value, 0, 0]
+      @color_space = :grayscale16
     end
   end
 end
