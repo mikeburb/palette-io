@@ -8,16 +8,14 @@ module PaletteIO
     attr_reader :color_space
 
     def initialize(*args)
-      if args[-1].class == Symbol
+      if args[-1].instance_of?(Symbol)
         to_color_space(args, args.pop)
       else
         to_color(args)
       end
-
     end
 
     # TODO: (To be completed for v 0.1)
-    # - Add 16-bit color color input
     # - Add internal color space conversions
     # - Add validations and Error handling
 
@@ -30,17 +28,32 @@ module PaletteIO
     end
 
     def to_color_space(color_input, color_space_input)
+      if color_space_input[-2, 2] == '16'
+        to_16_bit_color_space(color_input, color_space_input)
+      else
+        to_8_bit_color_space(color_input, color_space_input)
+      end
+    end
+
+    def to_8_bit_color_space(color_input, color_space_input)
       case color_space_input
       when :rgb
         as_rgb(color_input)
-      when :rgb16
-        as_rgb16(color_input)
       when :cmyk
         as_cmyk(color_input)
-      when :cmyk16
-        as_cmyk16(color_input)
       when :grayscale
         as_grayscale(color_input.first)
+      else
+        raise TypeError, "#{color_space_input} is an invalid color space."
+      end
+    end
+
+    def to_16_bit_color_space(color_input, color_space_input)
+      case color_space_input
+      when :rgb16
+        as_rgb16(color_input)
+      when :cmyk16
+        as_cmyk16(color_input)
       when :grayscale16
         as_grayscale16(color_input.first)
       else
@@ -69,8 +82,8 @@ module PaletteIO
     def convert_to_8_bit
       return nil unless @values16
 
-      # TODO: Write conversion
-      @values16
+      @values = []
+      @values16.each { |value16| @values << Integer.sqrt(value16) }
     end
 
     def convert_to_16_bit

@@ -55,8 +55,8 @@ module PaletteIO
     # RGB16
 
     def test_rgb16_values_can_be_assigned_directly
-      @swatch = Swatch.new(1002, 452, 23421, :rgb16)
-      assert_equal [1002, 452, 23421], @swatch.values16
+      @swatch = Swatch.new(1_002, 452, 23_421, :rgb16)
+      assert_equal [1_002, 452, 23_421], @swatch.values16
       assert_equal :rgb16, @swatch.color_space
     end
 
@@ -85,8 +85,8 @@ module PaletteIO
     # CMYK16
 
     def test_cmyk16_values_can_be_assigned_directly
-      @swatch = Swatch.new(1002, 452, 23421, 5463, :cmyk16)
-      assert_equal [1002, 452, 23421, 5463], @swatch.values16
+      @swatch = Swatch.new(1_002, 452, 23_421, 5_463, :cmyk16)
+      assert_equal [1_002, 452, 23_421, 5_463], @swatch.values16
       assert_equal :cmyk16, @swatch.color_space
     end
 
@@ -122,9 +122,14 @@ module PaletteIO
 
     # BitConversion
 
-    def test_16_bit_values
+    def test_16_bit_conversion_from_8_bit_values
       @swatch = Swatch.new(100, 45, 234)
       assert_equal [10_000, 2025, 54_756], @swatch.values16
+    end
+
+    def test_8_bit_conversion_from_16_bit_values
+      @swatch = Swatch.new(10_000, 2025, 54_756, :rgb16)
+      assert_equal [100, 45, 234], @swatch.values
     end
 
     # Overloaded Object Metods
