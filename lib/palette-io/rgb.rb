@@ -16,7 +16,7 @@ module PaletteIO
     def as_rgb16(rgb_values)
       @values16 = []
       rgb_values.each { |rgb_value| @values16 << (rgb_value.to_i) }
-      @color_space = :rgb16
+      @color_space = :rgb
     end
   end
 end

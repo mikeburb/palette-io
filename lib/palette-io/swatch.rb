@@ -8,7 +8,7 @@ module PaletteIO
   # Holds color information for a single color. Able to store and
   # convert a variety of color space formats.
   class Swatch
-    attr_reader :color_space
+    attr_reader :color_space, :bit_depth
 
     def initialize(*args)
       if args[-1].instance_of?(Symbol)
@@ -39,6 +39,7 @@ module PaletteIO
     end
 
     def to_8_bit_color_space(color_input, color_space_input)
+      @bit_depth = 8
       case color_space_input
       when :rgb
         as_rgb(color_input)
@@ -54,6 +55,7 @@ module PaletteIO
     end
 
     def to_16_bit_color_space(color_input, color_space_input)
+      @bit_depth = 16
       case color_space_input
       when :rgb16
         as_rgb16(color_input)
@@ -129,7 +131,7 @@ module PaletteIO
     def as_cmyk16(cmyk_values)
       @values16 = []
       cmyk_values.each { |cmyk_value| @values16 << (cmyk_value.to_i) }
-      @color_space = :cmyk16
+      @color_space = :cmyk
     end
 
     def as_hexadecimal(hex_values)
@@ -154,7 +156,7 @@ module PaletteIO
 
     def as_grayscale16(grayscale_value)
       @values16 = [grayscale_value, 0, 0]
-      @color_space = :grayscale16
+      @color_space = :grayscale
     end
   end
 end

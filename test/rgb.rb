@@ -13,12 +13,14 @@ module PaletteIO
       @swatch = Swatch.new(100, 45, 234, :rgb)
       assert_equal [100, 45, 234], @swatch.values
       assert_equal :rgb, @swatch.color_space
+      assert_equal 8, @swatch.bit_depth
     end
 
     def test_rgb16_values_can_be_assigned_directly
       @swatch = Swatch.new(1_002, 452, 23_421, :rgb16)
       assert_equal [1_002, 452, 23_421], @swatch.values16
-      assert_equal :rgb16, @swatch.color_space
+      assert_equal :rgb, @swatch.color_space
+      assert_equal 16, @swatch.bit_depth
     end
   end
 end

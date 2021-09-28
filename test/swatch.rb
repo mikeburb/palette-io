@@ -46,14 +46,6 @@ module PaletteIO
       assert_equal [100, 45, 234], @swatch_two.values
     end
 
-    # HSA16
-
-    def test_hsb16_values_can_be_assigned_directly
-      @swatch = Swatch.new(3_032, 5_652, 12_481, :hsb16)
-      assert_equal [3_032, 5_652, 12_481], @swatch.values16
-      assert_equal :hsb16, @swatch.color_space
-    end
-
     # CMYK
 
     def test_4_values_defaults_to_rgb_color_space
@@ -81,7 +73,8 @@ module PaletteIO
     def test_cmyk16_values_can_be_assigned_directly
       @swatch = Swatch.new(1_002, 452, 23_421, 5_463, :cmyk16)
       assert_equal [1_002, 452, 23_421, 5_463], @swatch.values16
-      assert_equal :cmyk16, @swatch.color_space
+      assert_equal 16, @swatch.bit_depth
+      assert_equal :cmyk, @swatch.color_space
     end
 
     # Grayscale
@@ -111,7 +104,8 @@ module PaletteIO
     def test_grayscale16_values_can_be_assigned_directly
       @swatch = Swatch.new(5463, :grayscale16)
       assert_equal [5463, 0, 0], @swatch.values16
-      assert_equal :grayscale16, @swatch.color_space
+      assert_equal 16, @swatch.bit_depth
+      assert_equal :grayscale, @swatch.color_space
     end
 
     # BitConversion

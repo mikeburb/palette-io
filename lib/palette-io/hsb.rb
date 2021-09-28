@@ -16,7 +16,7 @@ module PaletteIO
     def as_hsb16(hsb_values)
       @values16 = []
       hsb_values.each { |hsb_value| @values16 << (hsb_value.to_i) }
-      @color_space = :hsb16
+      @color_space = :hsb
     end
   end
 end

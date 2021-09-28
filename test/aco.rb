@@ -18,8 +18,10 @@ module PaletteIO
     end
 
     def test_reader_gets_correct_color_space
-      assert_equal :rgb16, @read_palette[0].color_space
-      assert_equal :hsb16, @read_palette[1].color_space
+      assert_equal :rgb, @read_palette[0].color_space
+      assert_equal 16, @read_palette[0].bit_depth
+      assert_equal :hsb, @read_palette[1].color_space
+      assert_equal 16, @read_palette[1].bit_depth
     end
   end
 end
