@@ -3,6 +3,8 @@
 require 'palette-io'
 require 'palette-io/rgb'
 require 'palette-io/hsb'
+require 'palette-io/cmyk'
+require 'palette-io/grayscale'
 
 module PaletteIO
   # Holds color information for a single color. Able to store and
@@ -40,34 +42,14 @@ module PaletteIO
 
     def to_8_bit_color_space(color_input, color_space_input)
       @bit_depth = 8
-      case color_space_input
-      when :rgb
-        as_rgb(color_input)
-      when :hsb
-        as_hsb(color_input)
-      when :cmyk
-        as_cmyk(color_input)
-      when :grayscale
-        as_grayscale(color_input.first)
-      else
-        raise TypeError, "#{color_space_input} is an invalid color space."
-      end
+      @color_space = valid_color_space(color_space_input)
+      @values = format_values(color_input)
     end
 
     def to_16_bit_color_space(color_input, color_space_input)
       @bit_depth = 16
-      case color_space_input
-      when :rgb16
-        as_rgb16(color_input)
-      when :hsb16
-        as_hsb16(color_input)
-      when :cmyk16
-        as_cmyk16(color_input)
-      when :grayscale16
-        as_grayscale16(color_input.first)
-      else
-        raise TypeError, "#{color_space_input} is an invalid color space."
-      end
+      @color_space = valid_color_space(color_space_input.to_s[0...-2].to_sym)
+      @values16 = format_values(color_input)
     end
 
     def values
@@ -88,6 +70,20 @@ module PaletteIO
 
     private
 
+    def format_values(color_input)
+      values = []
+      color_input.each { |value| values << (value.to_i) }
+      values
+    end
+
+    def valid_color_space(color_space_input)
+      unless %i[rgb hsb cmyk grayscale].include?(color_space_input)
+        raise TypeError, "#{color_space_input} is an invalid color space."
+      end
+
+      color_space_input
+    end
+
     def convert_to_8_bit
       return nil unless @values16
 
@@ -105,38 +101,27 @@ module PaletteIO
     def parse_color_multi_input(color_input)
       case color_input.length
       when 3
-        as_rgb(color_input)
+        to_8_bit_color_space(color_input, :rgb)
       when 4
-        as_cmyk(color_input)
+        to_8_bit_color_space(color_input, :cmyk)
       end
     end
 
     def parse_color_single_input(color_input)
       color_input = color_input[0]
       if color_input.is_a?(Integer)
-        as_grayscale(color_input)
+        to_8_bit_color_space([color_input], :grayscale)
       elsif color_input.length > 5
-        as_hexadecimal(color_input)
+        from_hexadecimal(color_input)
       else
-        as_grayscale(color_input.to_i)
+        to_8_bit_color_space([color_input.to_i], :grayscale)
       end
     end
 
-    def as_cmyk(cmyk_values)
-      @values = []
-      cmyk_values.each { |cmyk_value| @values << (cmyk_value.to_i) }
-      @color_space = :cmyk
-    end
-
-    def as_cmyk16(cmyk_values)
-      @values16 = []
-      cmyk_values.each { |cmyk_value| @values16 << (cmyk_value.to_i) }
-      @color_space = :cmyk
-    end
-
-    def as_hexadecimal(hex_values)
+    def from_hexadecimal(hex_values)
       format_hexadecimal(hex_values)
       @values = []
+      @bit_depth = 8
       hex_values = hex_values.scan(/\w{2}/)
       hex_values.each { |hex_value| @values << hex_value.to_i(16) }
       @color_space = :rgb
@@ -147,16 +132,6 @@ module PaletteIO
       return hex_values if hex_values.length == 6
 
       raise TypeError, 'Invalid color input value.'
-    end
-
-    def as_grayscale(grayscale_value)
-      @values = [grayscale_value, 0, 0]
-      @color_space = :grayscale
-    end
-
-    def as_grayscale16(grayscale_value)
-      @values16 = [grayscale_value, 0, 0]
-      @color_space = :grayscale
     end
   end
 end
