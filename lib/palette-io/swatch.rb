@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'palette-io'
+require 'palette-io/rgb'
+require 'palette-io/hsb'
+
 module PaletteIO
   # Holds color information for a single color. Able to store and
   # convert a variety of color space formats.
@@ -39,6 +42,8 @@ module PaletteIO
       case color_space_input
       when :rgb
         as_rgb(color_input)
+      when :hsb
+        as_hsb(color_input)
       when :cmyk
         as_cmyk(color_input)
       when :grayscale
@@ -113,24 +118,6 @@ module PaletteIO
       else
         as_grayscale(color_input.to_i)
       end
-    end
-
-    def as_rgb(rgb_values)
-      @values = []
-      rgb_values.each { |rgb_value| @values << (rgb_value.to_i) }
-      @color_space = :rgb
-    end
-
-    def as_rgb16(rgb_values)
-      @values16 = []
-      rgb_values.each { |rgb_value| @values16 << (rgb_value.to_i) }
-      @color_space = :rgb16
-    end
-
-    def as_hsb16(hsb_values)
-      @values16 = []
-      hsb_values.each { |hsb_value| @values16 << (hsb_value.to_i) }
-      @color_space = :hsb16
     end
 
     def as_cmyk(cmyk_values)
