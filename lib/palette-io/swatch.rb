@@ -77,7 +77,7 @@ module PaletteIO
     end
 
     def valid_color_space(color_space_input)
-      unless %i[rgb hsb cmyk grayscale].include?(color_space_input)
+      unless %i[rgb hsb hsl cmyk grayscale].include?(color_space_input)
         raise TypeError, "#{color_space_input} is an invalid color space."
       end
 

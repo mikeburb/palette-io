@@ -8,7 +8,6 @@ require 'palette-io'
 module PaletteIO
   # Unit test for RGB Methods of the Swatch class
   class TestSwatch < Test::Unit::TestCase
-
     def test_hsb_can_be_assigned_directly
       @swatch = Swatch.new(128, 100, 59, :hsb)
       assert_equal [128, 100, 59], @swatch.values
